@@ -83,7 +83,7 @@ void Board::draw(sf::RenderWindow &window) const
 			tile.draw(window);
 }
 
-void Board::update(sf::Event const &event/*, GameState &state*/)
+void Board::update(sf::Event const &event)
 {
 	if (event.type != sf::Event::KeyPressed)
 		return;

@@ -24,7 +24,7 @@ public:
 
 	/*	Если событие содержит нужную нам клавишу, то передаём управление в 
 		функцию move. */
-	void update(sf::Event const &/*, GameState &state*/);
+	void update(sf::Event const &);
 
 	/*	Отрисовка доски и плиток на экране */
 	void draw(sf::RenderWindow &) const;
