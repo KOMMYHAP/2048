@@ -15,7 +15,7 @@ class Board
 {
 public:
 	/*	Инициализация должна происходить единожды за всё время работы. */
-	void init(ResourceHandler const &, sf::Vector2f offset);
+	void init(ResourceHandler const &);
 
 	/*	Доска сбрасывается для новой игры. */
 	void reset();
@@ -35,22 +35,17 @@ private:
 		(!) Требуется наличие хотя бы одной свободной позиции. */
 	void createTile();
 
-	enum class Direction {
-		Left, Right, Up, Down
-	};
-	
 	/*	Производит сдвиг всех плиток в соответсвующем направлении. */
-	void move(Direction);
+	void move(sf::Keyboard::Key);
 
 	/*	Производит сдвиг всех плиток в массиве, сформированном 
 		по следующему правилу: 
 		... */
 	void moveRowOnLeft(std::vector<Tile *> &);
 
-	unsigned int ValueToSpriteIndex(unsigned int) const;
+	unsigned int ValueToSpriteIndex(int) const;
 
 private:
-	sf::Vector2f m_offset;
 	sf::Sprite m_background;
 	std::vector<sf::Sprite> m_sprites;
 	std::vector<std::vector<Tile>> m_tiles;
