@@ -29,7 +29,7 @@ void Game::init()
 	// m_resourceHandler.init(m_settings);
 	m_resourceHandler.init();
 	// m_board.init(m_resouceHandler, m_settings);
-	m_board.init(m_resourceHandler, {16, 64});
+	m_board.init(m_resourceHandler);
 //	m_score.init(m_resourceHandler);
 }
 
