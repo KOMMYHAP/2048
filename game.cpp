@@ -18,7 +18,7 @@ Game::Game()
 void Game::init()
 {
 	m_window.create(sf::VideoMode(128 * 4 + 8 * 5, 128 * 4 + 8 * 5), "2048");
-	m_window.setFramerateLimit(15);
+	m_window.setFramerateLimit(60);
 
 	m_resourceHandler.init();
 	m_board.init(m_resourceHandler);

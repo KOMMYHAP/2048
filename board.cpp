@@ -32,6 +32,7 @@ void Board::init(ResourceHandler const &handler)
 
 void Board::reset()
 {
+	m_bBlocked = false;
 	for (auto &row : m_tiles)
 		for (auto &tile : row) {
 			tile.setValue(0);
@@ -85,10 +86,27 @@ void Board::draw(sf::RenderWindow &window) const
 
 void Board::update(sf::Event const &event)
 {
-	if (event.type != sf::Event::KeyPressed)
-		return;
+	switch (event.type) {
+		case sf::Event::KeyPressed:
+			if (m_bBlocked)
+				return;
+			m_bBlocked = true;
+			break;
+		case sf::Event::KeyReleased:
+			m_bBlocked = false;
+		default:
+			return;
+	}
 
-	move(event.key.code);
+	auto code = event.key.code;
+	if (code != sf::Keyboard::Left
+		&& code != sf::Keyboard::Right
+		&& code != sf::Keyboard::Up
+		&& code != sf::Keyboard::Down) {
+		return;
+	}
+
+	move(code);
 	
 	if (!isFull())
 		createTile();

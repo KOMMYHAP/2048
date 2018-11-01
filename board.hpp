@@ -46,6 +46,8 @@ private:
 	unsigned int ValueToSpriteIndex(int) const;
 
 private:
+	bool m_bBlocked;
+
 	sf::Sprite m_background;
 	std::vector<sf::Sprite> m_sprites;
 	std::vector<std::vector<Tile>> m_tiles;
