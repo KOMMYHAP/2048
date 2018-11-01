@@ -14,18 +14,15 @@ public:
 		то будет брошено исключение std::runtime_error. */
 	void init();
 
-	/*	Запрос текстуры/шрифта по заданному имени. 
+	/*	Запрос текстуры по заданному имени. 
 		Если нужного объекта не было найдено - выбрасывается исключение.*/
 	sf::Texture const & texture(std::string const &alias) const;
-	sf::Font const & font(std::string const &alias) const;
 
 private:
 	void loadTexture(std::string const &alias, std::string const &path);
-	void loadFont(std::string const &alias, std::string const &path);
 
 private:
 	std::map<sf::String, sf::Texture> m_textures;
-	std::map<sf::String, sf::Font> m_fonts;
 };
 
 #endif
