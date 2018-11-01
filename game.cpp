@@ -6,8 +6,6 @@
 
 Game::Game()
 {
-	m_bIsInitialized = false;
-
 	try {
 		init();	
 	} catch (std::runtime_error const &err) {
@@ -19,32 +17,8 @@ Game::Game()
 
 void Game::init()
 {
-	std::cout << "Инициализация игры... ";
-
 	// Было бы неплохо размер экрана не хардкодить.
-	unsigned int const
-		tileW = 128,
-		tileH = 128,
-		tileSpace = 16,
-		nTileRows = 4,
-		nTileColumns = 4,
-		offsetLeft = 16,
-		offsetRight = 16,
-		offsetTop = 64,
-		offsetBottom = 16;
-
-	std::string const
-		title = "2048 by White";
-
-	unsigned int const
-		screenW = 
-			tileW * nTileRows + 
-			tileSpace * (nTileRows - 1) + offsetLeft + offsetRight,
-		screenH = 
-			tileH * nTileColumns + 
-			tileSpace * (nTileColumns - 1) + offsetBottom + offsetTop;
-
-	m_window.create(sf::VideoMode(screenW, screenH), title);
+	m_window.create(sf::VideoMode(128 * 4 + 16 * 3 + 32, 128 * 4 + 16 * 3 + 80), "2048");
 
 	// А также убрать привязку фпс и скорости обновления доски
 	m_window.setFramerateLimit(10);
@@ -55,18 +29,12 @@ void Game::init()
 	// m_resourceHandler.init(m_settings);
 	m_resourceHandler.init();
 	// m_board.init(m_resouceHandler, m_settings);
-	m_board.init(m_resourceHandler, {offsetLeft, offsetTop});
+	m_board.init(m_resourceHandler, {16, 64});
 //	m_score.init(m_resourceHandler);
-
-	m_bIsInitialized = true;
-	std::cout << "Ок." << std::endl;
 }
 
 void Game::run()
 {
-	if (!m_bIsInitialized)
-		return;
-
 	while (m_window.isOpen()) {
 		sf::Event event;
 		while (m_window.pollEvent(event)) {

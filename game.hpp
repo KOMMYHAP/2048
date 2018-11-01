@@ -23,8 +23,6 @@ private:
 	void init();
 
 private:
-	bool m_bIsInitialized;
-
 	/*	Менеджер технических ресурсов, таких как шрифты, текстуры и звуки.
 		Время жизни должно быть больше, чем у объектов его использующих. */
 	ResourceHandler m_resourceHandler;
