@@ -19,15 +19,12 @@ void Board::init(ResourceHandler const &handler)
 	// Разместим все плитки на доске
 	sf::Vector2f position;
 	for (int h = 0; h < 4; ++h) {
-		position.y = 64 + (128 + 8) * h + 8;
+		position.y = (128 + 8) * h + 8;
 		for (int w = 0; w < 4; ++w) {
-			position.x = 16 + (128 + 8) * w + 8;
+			position.x = (128 + 8) * w + 8;
 			m_tiles[h][w].setPosition(position);
 		}
 	}
-
-	// Разместим фон на экране
-	m_background.setPosition(16, 64);
 
 	/*	<! Разместим все плитки в соответствии с новой игрой !> */
 	reset();

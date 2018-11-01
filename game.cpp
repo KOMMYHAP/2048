@@ -17,20 +17,11 @@ Game::Game()
 
 void Game::init()
 {
-	// Было бы неплохо размер экрана не хардкодить.
-	m_window.create(sf::VideoMode(128 * 4 + 16 * 3 + 32, 128 * 4 + 16 * 3 + 80), "2048");
+	m_window.create(sf::VideoMode(128 * 4 + 8 * 5, 128 * 4 + 8 * 5), "2048");
+	m_window.setFramerateLimit(15);
 
-	// А также убрать привязку фпс и скорости обновления доски
-	m_window.setFramerateLimit(10);
-
-	// Если вынести настройки в отдельный класс, то 
-	// можно будет конфигурировать хоть через файл
-	// m_settings.init();
-	// m_resourceHandler.init(m_settings);
 	m_resourceHandler.init();
-	// m_board.init(m_resouceHandler, m_settings);
 	m_board.init(m_resourceHandler);
-//	m_score.init(m_resourceHandler);
 }
 
 void Game::run()
@@ -48,7 +39,6 @@ void Game::run()
 
 			m_window.clear();
 			m_board.draw(m_window);
-//			m_score.draw(m_window);
 			m_window.display();
 		}
 	}

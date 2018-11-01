@@ -30,9 +30,6 @@ private:
 	/*	Доска, отвечающая за размещение, перемещение и отрисовку плиток. */
 	Board m_board;
 
-	/*	Панель очков. */
-//	Score m_score;
-
 	sf::RenderWindow m_window;
 };
 
