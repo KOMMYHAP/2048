@@ -98,7 +98,7 @@ void Board::update(sf::Event const &event)
 			return;
 	}
 
-	auto code = event.key.code;
+	const auto code = event.key.code;
 	if (code != sf::Keyboard::Left
 		&& code != sf::Keyboard::Right
 		&& code != sf::Keyboard::Up
