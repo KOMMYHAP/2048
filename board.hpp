@@ -20,7 +20,8 @@ public:
 	/*	Доска сбрасывается для новой игры. */
 	void reset();
 
-	bool isFull() const;
+	/*	 */
+	bool isGameOver() const;
 
 	/*	Если событие содержит нужную нам клавишу, то передаём управление в 
 		функцию move. */
@@ -43,10 +44,19 @@ private:
 		... */
 	void moveRowOnLeft(std::vector<Tile *> &);
 
+	/*	Проверяет игру на проигрыш */
+	void checkGameOver();
+
+	/*	Возращает true, если доска заполнена */
+	bool isFull() const;
+
+	/*	Конвертирует всевозможные значения плиток (0, 2, 4,..) в 
+		индексы спрайтов, соответсвующие им (0, 1, 2,..) */
 	unsigned int ValueToSpriteIndex(int) const;
 
 private:
 	bool m_bBlocked;
+	bool m_bGameIsOver;
 
 	sf::Sprite m_background;
 	std::vector<sf::Sprite> m_sprites;

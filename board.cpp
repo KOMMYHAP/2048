@@ -33,6 +33,8 @@ void Board::init(ResourceHandler const &handler)
 void Board::reset()
 {
 	m_bBlocked = false;
+	m_bGameIsOver = false;
+
 	for (auto &row : m_tiles)
 		for (auto &tile : row) {
 			tile.setValue(0);
@@ -44,16 +46,9 @@ void Board::reset()
 	createTile();
 }
 
-/*	Проверяет наличие места на доске для размещение новой плитки. */
-bool Board::isFull() const
+bool Board::isGameOver() const
 {
-	int counter = 0;
-	for (auto const &row : m_tiles)
-		for (auto const &tile : row)
-			if (!tile.empty())
-				++counter;
-
-	return counter == 16;
+	return m_bGameIsOver;
 }
 
 /*	Добавляет плитку на доску в новой позиции */
@@ -107,9 +102,53 @@ void Board::update(sf::Event const &event)
 	}
 
 	move(code);
-	
-	if (!isFull())
+
+	checkGameOver();
+
+	if (!isGameOver())
 		createTile();
+}
+
+void Board::checkGameOver()
+{
+	m_bGameIsOver = false;
+
+	auto const cachedTiles = m_tiles;
+	int deadlock = 0;
+
+	move(sf::Keyboard::Left);
+	if (!isFull())
+		return;
+	m_tiles = cachedTiles;
+
+	move(sf::Keyboard::Right);
+	if (!isFull())
+		return;
+	m_tiles = cachedTiles;
+
+	move(sf::Keyboard::Up);
+	if (!isFull())
+		return;
+	m_tiles = cachedTiles;
+
+	move(sf::Keyboard::Down);
+	if (!isFull())
+		return;
+	m_tiles = cachedTiles;
+
+	m_bGameIsOver = true;
+}
+
+bool Board::isFull() const
+{
+	int counter = 0;
+	for (int h = 0; h < 4; ++h)
+		for (int w = 0; w < 4; ++w) {
+			if (m_tiles[h][w].empty())
+				break;
+			counter += 1;
+		}
+	return counter == 16;
 }
 
 void Board::move(sf::Keyboard::Key dir)
