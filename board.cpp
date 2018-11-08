@@ -25,9 +25,6 @@ void Board::init(ResourceHandler const &handler)
 			m_tiles[h][w].setPosition(position);
 		}
 	}
-
-	/*	<! Разместим все плитки в соответствии с новой игрой !> */
-	reset();
 }
 
 void Board::reset()
