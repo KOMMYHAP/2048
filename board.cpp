@@ -104,11 +104,20 @@ void Board::update(sf::Event const &event)
 		return;
 	}
 
+	auto const cachedTiles = m_tiles;
 	move(code);
+	bool boardChanged = false;
+	for (int h = 0; h < 4; ++h)
+		for (int w = 0; w < 4; ++w)
+			if (m_tiles[h][w].value() != cachedTiles[h][w].value()) {
+				boardChanged = true;
+				break;
+			}
 
-	createTile();
-
-	checkGameOver();
+	if (boardChanged) {
+		createTile();
+		checkGameOver();
+	}
 }
 
 void Board::checkGameOver()
