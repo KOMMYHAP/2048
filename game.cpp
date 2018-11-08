@@ -40,6 +40,6 @@ void Game::run()
 			m_window.display();
 		}
 	}
-	std::cout << "Game over." << std::endl;
+	std::cout << "Game over with " << m_board.score() << " score points." << std::endl;
 	m_window.close();
 }
