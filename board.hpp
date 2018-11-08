@@ -24,7 +24,7 @@ public:
 		после создания очередной плитки. */
 	bool isGameOver() const;
 
-
+	int score() const;
 
 	/*	Если событие содержит нужную нам клавишу, то передаём управление в 
 		функцию move. */
@@ -60,6 +60,7 @@ private:
 private:
 	bool m_bBlocked;
 	bool m_bGameIsOver;
+	int m_score;
 
 	sf::Sprite m_background;
 	std::vector<sf::Sprite> m_sprites;

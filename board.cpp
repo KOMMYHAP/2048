@@ -34,6 +34,7 @@ void Board::reset()
 {
 	m_bBlocked = false;
 	m_bGameIsOver = false;
+	m_score = 0;
 
 	for (auto &row : m_tiles)
 		for (auto &tile : row) {
@@ -44,6 +45,11 @@ void Board::reset()
 	/* <! Генерируем две начальные плитки. !> */
 	createTile();
 	createTile();
+}
+
+int Board::score() const
+{
+	return m_score;
 }
 
 bool Board::isGameOver() const
@@ -238,6 +244,7 @@ void Board::moveRowOnLeft(std::vector<Tile *> &row)
 			row[x]->setValue(0);
 			row[x]->setSprite(m_sprites[0]);
 			place++;
+			m_score += valueP * 2;
 		} else { // valueP != valueX
 			if (place + 1 == x && !row[place]->empty()) {
 				place += 1;
