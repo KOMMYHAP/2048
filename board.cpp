@@ -106,14 +106,16 @@ void Board::update(sf::Event const &event)
 
 	move(code);
 
-	checkGameOver();
+	createTile();
 
-	if (!isGameOver())
-		createTile();
+	checkGameOver();
 }
 
 void Board::checkGameOver()
 {
+	if (!isFull())
+		return;
+	
 	m_bGameIsOver = false;
 
 	auto const cachedTiles = m_tiles;
