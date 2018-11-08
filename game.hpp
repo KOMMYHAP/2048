@@ -5,7 +5,6 @@
 
 #include "resourceHandler.hpp"
 #include "board.hpp"
-//#include "score.hpp"
 
 class Game
 {
@@ -23,6 +22,8 @@ private:
 	void init();
 
 private:
+	bool m_bGameInProcess;
+
 	/*	Менеджер технических ресурсов, таких как шрифты, текстуры и звуки.
 		Время жизни должно быть больше, чем у объектов его использующих. */
 	ResourceHandler m_resourceHandler;

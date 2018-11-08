@@ -17,6 +17,8 @@ Game::Game()
 
 void Game::init()
 {
+	m_bGameInProcess = true;
+	
 	m_window.create(sf::VideoMode(128 * 4 + 8 * 5, 128 * 4 + 8 * 5), "2048");
 	m_window.setFramerateLimit(60);
 
@@ -26,20 +28,18 @@ void Game::init()
 
 void Game::run()
 {
-	while (m_window.isOpen()) {
-		sf::Event event;
+	sf::Event event;
+	while (m_bGameInProcess) {
 		while (m_window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed
-				|| (event.type == sf::Event::KeyPressed 
-				&& event.key.code == sf::Keyboard::Escape)) 
-				m_window.close();
-		}
-		if (m_window.isOpen()) {
 			m_board.update(event);
-
+			m_bGameInProcess = !m_board.isGameOver();
+		}
+		if (m_bGameInProcess) { 
 			m_window.clear();
 			m_board.draw(m_window);
 			m_window.display();
 		}
 	}
+	std::cout << "Game over." << std::endl;
+	m_window.close();
 }
