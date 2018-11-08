@@ -1,6 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include <exception>
+#include <limits>
 
 #include "game.hpp"
 
@@ -41,8 +42,8 @@ void Game::requestNewGame()
 		isAnswer = c == 'n' || c == 'y';
 		if (c == 'y')
 			reset();
-		
-		std::cin.ignore(-1, '\n');
+
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		std::cin.clear();
 	}
 }
@@ -52,8 +53,15 @@ void Game::run()
 	sf::Event event;
 	while (m_bGameInProcess) {
 		while (m_window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed 
+					|| event.type == sf::Event::KeyPressed
+					&& event.key.code == sf::Keyboard::Escape) {
+				m_bGameInProcess = false;
+			}
 			m_board.update(event);
-			m_bGameInProcess = !m_board.isGameOver();
+			m_bGameInProcess &= !m_board.isGameOver();
+			if (!m_bGameInProcess)
+				break;
 		}
 		if (m_bGameInProcess) { 
 			m_window.clear();
