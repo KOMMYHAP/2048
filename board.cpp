@@ -81,6 +81,9 @@ void Board::draw(sf::RenderWindow &window) const
 
 void Board::update(sf::Event const &event)
 {
+	if (isGameOver())
+		return;
+
 	switch (event.type) {
 		case sf::Event::KeyPressed:
 			if (m_bBlocked)
@@ -114,27 +117,31 @@ void Board::checkGameOver()
 	m_bGameIsOver = false;
 
 	auto const cachedTiles = m_tiles;
-	int deadlock = 0;
+	bool deadlock = true;
 
 	move(sf::Keyboard::Left);
-	if (!isFull())
-		return;
+	deadlock = isFull();
 	m_tiles = cachedTiles;
+	if (!deadlock)
+		return;
 
 	move(sf::Keyboard::Right);
-	if (!isFull())
-		return;
+	deadlock = isFull();
 	m_tiles = cachedTiles;
+	if (!deadlock)
+		return;
 
 	move(sf::Keyboard::Up);
-	if (!isFull())
-		return;
+	deadlock = isFull();
 	m_tiles = cachedTiles;
+	if (!deadlock)
+		return;
 
 	move(sf::Keyboard::Down);
-	if (!isFull())
-		return;
+	deadlock = isFull();
 	m_tiles = cachedTiles;
+	if (!deadlock)
+		return;
 
 	m_bGameIsOver = true;
 }
