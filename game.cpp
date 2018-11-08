@@ -7,7 +7,8 @@
 Game::Game()
 {
 	try {
-		init();	
+		init();
+		reset();
 	} catch (std::runtime_error const &err) {
 		std::cerr << err.what() << std::endl;
 	} catch (std::logic_error const &err) {
@@ -16,14 +17,34 @@ Game::Game()
 }
 
 void Game::init()
-{
-	m_bGameInProcess = true;
-	
-	m_window.create(sf::VideoMode(128 * 4 + 8 * 5, 128 * 4 + 8 * 5), "2048");
-	m_window.setFramerateLimit(60);
-
+{	
 	m_resourceHandler.init();
 	m_board.init(m_resourceHandler);
+
+	m_window.create(sf::VideoMode(128 * 4 + 8 * 5, 128 * 4 + 8 * 5), "2048");
+	m_window.setFramerateLimit(60);
+}
+
+void Game::reset()
+{
+	m_bGameInProcess = true;
+	m_board.reset();
+}
+
+void Game::requestNewGame()
+{
+	std::cout << "Game over with " << m_board.score() << " score points." << std::endl;
+	bool isAnswer = false;
+	while (!isAnswer) {
+		std::cout << "Start a new game? (y/n): ";
+		int c = std::cin.get();
+		isAnswer = c == 'n' || c == 'y';
+		if (c == 'y')
+			reset();
+		
+		std::cin.ignore(-1, '\n');
+		std::cin.clear();
+	}
 }
 
 void Game::run()
@@ -38,8 +59,9 @@ void Game::run()
 			m_window.clear();
 			m_board.draw(m_window);
 			m_window.display();
+		} else {
+			requestNewGame();
 		}
 	}
-	std::cout << "Game over with " << m_board.score() << " score points." << std::endl;
 	m_window.close();
 }

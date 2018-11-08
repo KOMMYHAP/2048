@@ -16,10 +16,17 @@ public:
 
 	~Game() = default;
 
+	/*	Запуск основного игрового цикла */
 	void run();
 
 private:
+	/* 	Инициализация ресурсов игры. Выполняется единожды для объекта. */
 	void init();
+
+	/*	Сброс состояния игры для начала новой. */
+	void reset();
+
+	void requestNewGame();
 
 private:
 	bool m_bGameInProcess;
