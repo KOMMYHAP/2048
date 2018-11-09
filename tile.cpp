@@ -1,6 +1,6 @@
 #include "tile.hpp"
 
-Tile::Tile(sf::Vector2f const &position, sf::Sprite const &sprite, unsigned int value)
+Tile::Tile(sf::Vector2f const &position, sf::Sprite const &sprite, int value)
 {
 	setPosition(position);
 	setValue(value);
@@ -12,12 +12,12 @@ bool Tile::empty() const
 	return m_nValue == 0;
 }
 
-void Tile::setValue(unsigned int value)
+void Tile::setValue(int value)
 {
 	m_nValue = value;
 }
 
-unsigned int Tile::value() const
+int Tile::value() const
 {
 	return m_nValue;
 }

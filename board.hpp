@@ -15,16 +15,20 @@ class Board
 {
 public:
 	/*	Инициализация должна происходить единожды за всё время работы. */
-	void init(ResourceHandler const &, sf::Vector2f offset);
+	void init(ResourceHandler const &);
 
 	/*	Доска сбрасывается для новой игры. */
 	void reset();
 
-	bool isFull() const;
+	/*	Возвращает true, если на поле не осталось ходов
+		после создания очередной плитки. */
+	bool isGameOver() const;
+
+	int score() const;
 
 	/*	Если событие содержит нужную нам клавишу, то передаём управление в 
 		функцию move. */
-	void update(sf::Event const &/*, GameState &state*/);
+	void update(sf::Event const &);
 
 	/*	Отрисовка доски и плиток на экране */
 	void draw(sf::RenderWindow &) const;
@@ -35,22 +39,29 @@ private:
 		(!) Требуется наличие хотя бы одной свободной позиции. */
 	void createTile();
 
-	enum class Direction {
-		Left, Right, Up, Down
-	};
-	
 	/*	Производит сдвиг всех плиток в соответсвующем направлении. */
-	void move(Direction);
+	void move(sf::Keyboard::Key);
 
 	/*	Производит сдвиг всех плиток в массиве, сформированном 
 		по следующему правилу: 
 		... */
 	void moveRowOnLeft(std::vector<Tile *> &);
 
-	unsigned int ValueToSpriteIndex(unsigned int) const;
+	/*	Проверяет игру на проигрыш */
+	void checkGameOver();
+
+	/*	Возращает true, если доска заполнена */
+	bool isFull() const;
+
+	/*	Конвертирует всевозможные значения плиток (0, 2, 4,..) в 
+		индексы спрайтов, соответсвующие им (0, 1, 2,..) */
+	unsigned int ValueToSpriteIndex(int) const;
 
 private:
-	sf::Vector2f m_offset;
+	bool m_bBlocked;
+	bool m_bGameIsOver;
+	int m_score;
+
 	sf::Sprite m_background;
 	std::vector<sf::Sprite> m_sprites;
 	std::vector<std::vector<Tile>> m_tiles;

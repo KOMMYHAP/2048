@@ -1,15 +1,15 @@
 #include <cassert>
 #include <iostream>
 #include <exception>
+#include <limits>
 
 #include "game.hpp"
 
 Game::Game()
 {
-	m_bIsInitialized = false;
-
 	try {
-		init();	
+		init();
+		reset();
 	} catch (std::runtime_error const &err) {
 		std::cerr << err.what() << std::endl;
 	} catch (std::logic_error const &err) {
@@ -18,70 +18,58 @@ Game::Game()
 }
 
 void Game::init()
-{
-	std::cout << "Инициализация игры... ";
-
-	// Было бы неплохо размер экрана не хардкодить.
-	unsigned int const
-		tileW = 128,
-		tileH = 128,
-		tileSpace = 16,
-		nTileRows = 4,
-		nTileColumns = 4,
-		offsetLeft = 16,
-		offsetRight = 16,
-		offsetTop = 64,
-		offsetBottom = 16;
-
-	std::string const
-		title = "2048 by White";
-
-	unsigned int const
-		screenW = 
-			tileW * nTileRows + 
-			tileSpace * (nTileRows - 1) + offsetLeft + offsetRight,
-		screenH = 
-			tileH * nTileColumns + 
-			tileSpace * (nTileColumns - 1) + offsetBottom + offsetTop;
-
-	m_window.create(sf::VideoMode(screenW, screenH), title);
-
-	// А также убрать привязку фпс и скорости обновления доски
-	m_window.setFramerateLimit(10);
-
-	// Если вынести настройки в отдельный класс, то 
-	// можно будет конфигурировать хоть через файл
-	// m_settings.init();
-	// m_resourceHandler.init(m_settings);
+{	
 	m_resourceHandler.init();
-	// m_board.init(m_resouceHandler, m_settings);
-	m_board.init(m_resourceHandler, {offsetLeft, offsetTop});
-//	m_score.init(m_resourceHandler);
+	m_board.init(m_resourceHandler);
 
-	m_bIsInitialized = true;
-	std::cout << "Ок." << std::endl;
+	m_window.create(sf::VideoMode(128 * 4 + 8 * 5, 128 * 4 + 8 * 5), "2048");
+	m_window.setFramerateLimit(60);
+}
+
+void Game::reset()
+{
+	m_bGameInProcess = true;
+	m_board.reset();
+}
+
+void Game::requestNewGame()
+{
+	std::cout << "Game over with " << m_board.score() << " score points." << std::endl;
+	bool isAnswer = false;
+	while (!isAnswer) {
+		std::cout << "Start a new game? (y/n): ";
+		int c = std::cin.get();
+		isAnswer = c == 'n' || c == 'y';
+		if (c == 'y')
+			reset();
+
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin.clear();
+	}
 }
 
 void Game::run()
 {
-	if (!m_bIsInitialized)
-		return;
-
-	while (m_window.isOpen()) {
-		sf::Event event;
+	sf::Event event;
+	while (m_bGameInProcess) {
 		while (m_window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed
-				|| (event.type == sf::Event::KeyPressed 
-				&& event.key.code == sf::Keyboard::Escape)) 
-				m_window.close();
-		}
-		if (m_window.isOpen()) {
+			if (event.type == sf::Event::Closed 
+					|| event.type == sf::Event::KeyPressed
+					&& event.key.code == sf::Keyboard::Escape) {
+				m_bGameInProcess = false;
+			}
 			m_board.update(event);
-
+			m_bGameInProcess &= !m_board.isGameOver();
+			if (!m_bGameInProcess)
+				break;
+		}
+		if (m_bGameInProcess) { 
 			m_window.clear();
 			m_board.draw(m_window);
-//			m_score.draw(m_window);
 			m_window.display();
+		} else {
+			requestNewGame();
 		}
 	}
+	m_window.close();
 }

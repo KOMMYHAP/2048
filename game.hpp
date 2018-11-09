@@ -5,7 +5,6 @@
 
 #include "resourceHandler.hpp"
 #include "board.hpp"
-//#include "score.hpp"
 
 class Game
 {
@@ -17,13 +16,20 @@ public:
 
 	~Game() = default;
 
+	/*	Запуск основного игрового цикла */
 	void run();
 
 private:
+	/* 	Инициализация ресурсов игры. Выполняется единожды для объекта. */
 	void init();
 
+	/*	Сброс состояния игры для начала новой. */
+	void reset();
+
+	void requestNewGame();
+
 private:
-	bool m_bIsInitialized;
+	bool m_bGameInProcess;
 
 	/*	Менеджер технических ресурсов, таких как шрифты, текстуры и звуки.
 		Время жизни должно быть больше, чем у объектов его использующих. */
@@ -32,9 +38,7 @@ private:
 	/*	Доска, отвечающая за размещение, перемещение и отрисовку плиток. */
 	Board m_board;
 
-	/*	Панель очков. */
-//	Score m_score;
-
+	/*	Окно, на которое всё будет отрисовано. */
 	sf::RenderWindow m_window;
 };
 

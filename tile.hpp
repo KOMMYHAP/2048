@@ -8,7 +8,7 @@ class Tile
 public:
 	Tile() = default;
 
-	Tile(sf::Vector2f const &, sf::Sprite const &, unsigned int);
+	Tile(sf::Vector2f const &, sf::Sprite const &, int);
 
 	Tile(Tile const &) = default;
 
@@ -20,12 +20,12 @@ public:
 	bool empty() const;
 
 	/*	Устнавливает на плитке новое значение и обновляет спрайт. */
-	void setValue(unsigned int);
+	void setValue(int);
 
 	void setSprite(sf::Sprite const &);
 
 	/*	Возвращает текущее значение плитки. */
-	unsigned int value() const;
+	int value() const;
 
 	/*	Устанавливает позицию спрайта относительно левого верхнего края. */
 	void setPosition(sf::Vector2f const &);
@@ -44,7 +44,7 @@ private:
 	sf::Sprite m_sprite;
 	
 	/* число, отображаемое на плитке - 0, 2, 4,.. 2048 */
-	unsigned int m_nValue;
+	int m_nValue;
 };
 
 #endif
