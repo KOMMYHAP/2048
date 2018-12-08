@@ -228,6 +228,8 @@ unsigned int Board::ValueToSpriteIndex(int value) const
 
 void Board::moveRowOnLeft(std::vector<Tile *> &row)
 {
+	/*	place - индекс для вставки плитки,
+		x     - индекс рассматриваемой плитки */
 	int place = 0, x = 1;
 	for (; x < row.size(); ++x) {
 		if (row[x]->empty())
@@ -253,7 +255,6 @@ void Board::moveRowOnLeft(std::vector<Tile *> &row)
 			row[place]->setSprite(m_sprites[ValueToSpriteIndex(valueX)]);
 			row[x]->setValue(0);
 			row[x]->setSprite(m_sprites[0]);
-			place++;
 		}
 	}
 }
