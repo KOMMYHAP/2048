@@ -2,6 +2,8 @@
 
 #include <string>
 #include <cstdlib> // std::rand
+#include <cassert>
+#include <exception>
 
 void Board::init(ResourceHandler const &handler)
 {
@@ -206,6 +208,10 @@ void Board::move(sf::Keyboard::Key dir)
 					row.push_back(&m_tiles[h - 1][w]);
 				board.emplace_back(std::move(row));
 			}
+			break;
+		default:
+			assert(false);
+			throw std::logic_error("You can move only using arrows");
 			break;
 	}
 
