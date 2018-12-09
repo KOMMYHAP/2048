@@ -236,7 +236,7 @@ void Board::moveRowOnLeft(std::vector<Tile *> &row)
 {
 	/*	place - индекс для вставки плитки,
 		x     - индекс рассматриваемой плитки */
-	int place = 0, x = 1;
+	unsigned int place = 0, x = 1;
 	for (; x < row.size(); ++x) {
 		if (row[x]->empty())
 			continue;
